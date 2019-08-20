@@ -1,10 +1,13 @@
-curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.2.2 sh -
+export ISTIO_VERSION="1.2.2"
+curl -L https://git.io/getLatestIstio | sh -
 
-export PATH=$PWD/istio-1.2.2/bin:$PATH
+ISTIO_PATH="$PWD/istio-$ISTIO_VERSION"
+
+export PATH=$ISTIO_PATH/bin:$PATH
 
 kubectl create namespace istio-system
-helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+helm template $ISTIO_PATH/install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
 
-helm template install/kubernetes/helm/istio --name istio --namespace istio-system \
-    --values install/kubernetes/helm/istio/values-istio-minimal.yaml \
+helm template $ISTIO_PATH/install/kubernetes/helm/istio --name istio --namespace istio-system \
+    --values $ISTIO_PATH/install/kubernetes/helm/istio/values-istio-minimal.yaml \
     --set gateways.enabled=true | kubectl apply -f -
