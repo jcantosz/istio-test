@@ -26,7 +26,10 @@ spec:
   gateways:
   - my-gateway
   http:
-  - route:
+  - match:
+    - uri:
+        exact: /colors
+    route:
     - destination:
         host: colors
         subset: v1
@@ -39,4 +42,12 @@ spec:
         host: colors
         subset: v3
       weight: 60
+    route:
+    - destination:
+        host: colors
+  - match:
+    - uri:
+        exact: /logger
+    route:
+      destination: logger-frontend
 ---

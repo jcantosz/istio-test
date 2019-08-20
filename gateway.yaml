@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: nip-gateway
+  name: my-gateway
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -12,5 +12,5 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*.nip.io"
+    - "*"
 ---

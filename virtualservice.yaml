@@ -5,10 +5,9 @@ metadata:
   name: colors
 spec:
   hosts:
-  - "colors.10.103.59.158.nip.io"
-  - "colors-10-103-59-158.nip.io"
+  - "*"
   gateways:
-  - nip-gateway
+  - my-gateway
   http:
   - route:
     - destination:
@@ -23,7 +22,7 @@ spec:
   - "logger.10.103.59.158.nip.io"
   - "logger-10-103-59-158.nip.io"
   gateways:
-  - nip-gateway
+  - my-gateway
   http:
   - route:
     - destination:
