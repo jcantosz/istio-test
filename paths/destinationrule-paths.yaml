@@ -29,6 +29,8 @@ spec:
   - match:
     - uri:
         exact: /colors
+    rewrite:
+      uri: /
     route:
     - destination:
         host: colors
@@ -42,12 +44,7 @@ spec:
         host: colors
         subset: v3
       weight: 60
-    route:
+  - route:
     - destination:
-        host: colors
-  - match:
-    - uri:
-        exact: /logger
-    route:
-      destination: logger-frontend
+        host: logger-frontend
 ---

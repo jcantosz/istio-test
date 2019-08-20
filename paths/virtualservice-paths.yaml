@@ -11,11 +11,11 @@ spec:
   - match:
     - uri:
         exact: /colors
+    rewrite:
+      uri: /
     route:
     - destination:
         host: colors
-  - match:
-    - uri:
-        exact: /logger
-    route:
-      destination: logger-frontend
+  - route:
+    - destination:
+        host: logger-frontend
