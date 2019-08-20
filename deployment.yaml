@@ -1,0 +1,163 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: colors-sa
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: logger-frontend-sa
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: logger-backend-sa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: colors-v1
+  labels:
+    app: colors
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: colors
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: colors
+        version: v1
+    spec:
+      serviceAccountName: colors-sa
+      containers:
+      - name: colors
+        image: jcantosz/demo-colors:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_BACKEND
+          value: logger-backend
+        - name: COLOR
+          value: crimson
+        ports:
+        - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: colors-v2
+  labels:
+    app: colors
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: colors
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: colors
+        version: v2
+    spec:
+      serviceAccountName: colors-sa
+      containers:
+      - name: colors
+        image: jcantosz/demo-colors:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_BACKEND
+          value: logger-backend
+        - name: COLOR
+          value: lightseagreen
+        ports:
+        - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: colors-v3
+  labels:
+    app: colors
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: colors
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: colors
+        version: v3
+    spec:
+      serviceAccountName: colors-sa
+      containers:
+      - name: colors
+        image: jcantosz/demo-colors:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_BACKEND
+          value: logger-backend
+        - name: COLOR
+          value: indigo
+        ports:
+        - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger-backend
+  labels:
+    app: logger-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger-backend
+  template:
+    metadata:
+      labels:
+        app: logger-backend
+    spec:
+      serviceAccountName: logger-backend-sa
+      containers:
+      - name: logger-backend
+        image: jcantosz/demo-logger-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger-frontend
+  labels:
+    app: logger-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger-frontend
+  template:
+    metadata:
+      labels:
+        app: logger-frontend
+    spec:
+      serviceAccountName: logger-frontend-sa
+      containers:
+      - name: logger-frontend
+        image: jcantosz/demo-logger-frontend:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: LOG_BACKEND
+          value: logger-backend
+        ports:
+        - containerPort: 3000
+---

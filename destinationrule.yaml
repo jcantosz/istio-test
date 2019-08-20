@@ -1,0 +1,43 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: colors
+spec:
+  host: colors
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+  - name: v3
+    labels:
+      version: v3
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: colors
+spec:
+  hosts:
+  - "colors.<my_ip>.nip.io"
+  - "colors-<my_ip>.nip.io"
+  gateways:
+  - nip-gateway
+  http:
+  - route:
+    - destination:
+        host: colors
+        subset: v1
+      weight: 10
+    - destination:
+        host: colors
+        subset: v2
+      weight: 30
+    - destination:
+        host: colors
+        subset: v3
+      weight: 60
+---

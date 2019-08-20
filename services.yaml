@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: colors
+  labels:
+    app: colors
+    service: colors
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+    name: http
+  selector:
+    app: colors
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logger-frontend
+  labels:
+    app: logger-frontend
+    service: logger-frontent
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+    name: http
+  selector:
+    app: logger-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logger-backend
+  labels:
+    app: logger-backend
+    service: logger-backend
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+    name: http
+  selector:
+    app: logger-backend
+---
